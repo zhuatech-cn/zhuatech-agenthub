@@ -2,6 +2,7 @@
 package cn.zhuatech.agenthub.controller;
 
 import cn.zhuatech.agenthub.agent.AgentGovernanceService;
+import cn.zhuatech.agenthub.agent.AgentBudgetService;
 import cn.zhuatech.agenthub.agent.AgentRuntime;
 import cn.zhuatech.agenthub.common.ApiResponse;
 import cn.zhuatech.agenthub.dto.AgentHubDto.*;
@@ -19,11 +20,13 @@ public class WorkspaceController {
     private final AgentHubService service;
     private final AgentRuntime runtime;
     private final AgentGovernanceService governance;
+    private final AgentBudgetService budget;
 
-    public WorkspaceController(AgentHubService service, AgentRuntime runtime, AgentGovernanceService governance) {
+    public WorkspaceController(AgentHubService service, AgentRuntime runtime, AgentGovernanceService governance, AgentBudgetService budget) {
         this.service = service;
         this.runtime = runtime;
         this.governance = governance;
+        this.budget = budget;
     }
 
     @GetMapping("/dashboard")
@@ -42,5 +45,10 @@ public class WorkspaceController {
     @PostMapping("/agent-preflight")
     public ApiResponse<AgentGovernanceService.PreflightResult> preflight(@Valid @RequestBody AgentGovernanceService.PreflightRequest request) {
         return ApiResponse.ok("治理检查完成", governance.preflight(request));
+    }
+
+    @PostMapping("/agent-budget")
+    public ApiResponse<AgentBudgetService.BudgetResult> evaluateBudget(@Valid @RequestBody AgentBudgetService.BudgetRequest request) {
+        return ApiResponse.ok("执行预算评估完成", budget.evaluate(request));
     }
 }

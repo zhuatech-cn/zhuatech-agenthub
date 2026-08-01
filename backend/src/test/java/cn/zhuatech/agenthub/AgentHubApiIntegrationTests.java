@@ -15,5 +15,10 @@ import org.junit.jupiter.api.*; import org.springframework.beans.factory.annotat
         .andExpect(jsonPath("$.data.decision").value("BLOCKED"))
         .andExpect(jsonPath("$.data.blockedTools[0]").value("message.send"))
         .andExpect(jsonPath("$.data.requiredApprovals.length()").value(3));}
+    @Test void operatorCanEvaluateAgentBudget()throws Exception{mvc.perform(post("/api/shopfloor/agent-budget").header("Authorization","Bearer "+operatorToken).contentType(MediaType.APPLICATION_JSON).content("{\"agentName\":\"客户报告智能体\",\"estimatedTokens\":9000,\"tokenLimit\":8000,\"costPerThousandTokens\":0.2,\"costLimit\":1.5,\"plannedToolCalls\":4,\"toolCallLimit\":3}"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.message").value("执行预算评估完成"))
+        .andExpect(jsonPath("$.data.decision").value("BLOCKED"))
+        .andExpect(jsonPath("$.data.projectedCost").value(1.8))
+        .andExpect(jsonPath("$.data.violations.length()").value(3));}
     @Test void anonymousRequestIsDenied()throws Exception{mvc.perform(get("/api/admin/dashboard")).andExpect(status().isForbidden());}
 }
