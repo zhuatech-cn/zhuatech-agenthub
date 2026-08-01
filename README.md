@@ -21,6 +21,10 @@ ZhuaTech AgentHub 是面向企业 AI 团队与业务运营团队的 AgentOps 社
 
 ![AgentHub 业务智能体移动工作台](docs/images/agenthub-run-h5.png)
 
+## 新增：智能体执行前治理检查
+
+`POST /api/shopfloor/agent-preflight` 会在任务进入运行时之前核对工具登记、外部写操作、敏感数据和人工审批要求，输出风险分、阻断工具、所需审批与下一步动作。社区版使用确定性规则，便于本地演示、自动测试和后续替换企业策略引擎。
+
 ## 技术基线
 
 | 层级 | 方案 |

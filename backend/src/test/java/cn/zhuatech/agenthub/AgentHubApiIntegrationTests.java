@@ -9,5 +9,11 @@ import org.junit.jupiter.api.*; import org.springframework.beans.factory.annotat
     @Test void plannerCanReadWorkRecords()throws Exception{mvc.perform(get("/api/admin/work-orders").header("Authorization","Bearer "+plannerToken)).andExpect(status().isOk()).andExpect(jsonPath("$.data.length()").value(3));}
     @Test void operatorCanSubmitProductionReport()throws Exception{mvc.perform(post("/api/shopfloor/work-orders/1/reports").header("Authorization","Bearer "+operatorToken).contentType(MediaType.APPLICATION_JSON).content("{\"operationName\":\"人工审批\",\"goodQty\":2,\"defectQty\":1,\"remark\":\"证据完整\"}")).andExpect(status().isOk()).andExpect(jsonPath("$.message").value("反馈提交成功")).andExpect(jsonPath("$.data.completedQty").value(89));}
     @Test void operatorCanRunLocalAgentPreview()throws Exception{mvc.perform(post("/api/shopfloor/agent-preview").header("Authorization","Bearer "+operatorToken).contentType(MediaType.APPLICATION_JSON).content("{\"objective\":\"核验客户资料\"}")).andExpect(status().isOk()).andExpect(jsonPath("$.data.runtime").value("local-governed-demo")).andExpect(jsonPath("$.data.steps.length()").value(3));}
+    @Test void operatorCanRunAgentGovernancePreflight()throws Exception{mvc.perform(post("/api/shopfloor/agent-preflight").header("Authorization","Bearer "+operatorToken).contentType(MediaType.APPLICATION_JSON).content("{\"objective\":\"生成客户报告并发送\",\"tools\":[\"knowledge.search\",\"message.send\"],\"externalWrite\":true,\"sensitiveData\":true}"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.message").value("治理检查完成"))
+        .andExpect(jsonPath("$.data.decision").value("BLOCKED"))
+        .andExpect(jsonPath("$.data.blockedTools[0]").value("message.send"))
+        .andExpect(jsonPath("$.data.requiredApprovals.length()").value(3));}
     @Test void anonymousRequestIsDenied()throws Exception{mvc.perform(get("/api/admin/dashboard")).andExpect(status().isForbidden());}
 }

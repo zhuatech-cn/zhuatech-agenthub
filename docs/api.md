@@ -10,3 +10,4 @@
 | GET | `/api/shopfloor/dashboard` | 业务智能体工作台 |
 | POST | `/api/shopfloor/work-orders/{id}/reports` | 提交人工运行反馈 |
 | POST | `/api/shopfloor/agent-preview` | 运行本地演示 AgentRuntime |
+| POST | `/api/shopfloor/agent-preflight` | 执行前校验工具登记、敏感数据和人工审批要求 |
