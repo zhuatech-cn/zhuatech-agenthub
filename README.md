@@ -52,3 +52,7 @@ ZhuaTech AgentHub 是面向企业 AI 团队与业务运营团队的 AgentOps 社
 | ![知华科技微信咨询二维码一](docs/images/zhuatech-wechat-consulting.png) | ![知华科技微信咨询二维码二](docs/images/zhuatech-wechat-consulting-2.png) |
 
 SEO：Agent 平台源码、AgentOps、企业智能体治理、AI Agent 开源、智能体评测、Java Agent、Vue Agent 平台、知华科技。
+
+## Agent 容量路由
+
+新增 `POST /api/agenthub/insights/capacity-routing`，结合任务队列、执行器、模型并发、运行时长、SLA 和工具健康预测等待时间，输出 `NORMAL`、`ADD_CAPACITY` 或 `DEGRADE`。
