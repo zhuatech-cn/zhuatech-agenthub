@@ -56,3 +56,7 @@ SEO：Agent 平台源码、AgentOps、企业智能体治理、AI Agent 开源、
 ## Agent 容量路由
 
 新增 `POST /api/agenthub/insights/capacity-routing`，结合任务队列、执行器、模型并发、运行时长、SLA 和工具健康预测等待时间，输出 `NORMAL`、`ADD_CAPACITY` 或 `DEGRADE`。
+
+## 企业级 Agent 生产授权
+
+新增 `POST /api/enterprise/agenthub/production-authorization`，覆盖工具权限、凭据、安全评测、人工审批、审计、熔断、容量与成本，返回 `AUTHORIZE / PILOT / BLOCKED`。详见 [生产授权说明](docs/ENTERPRISE_AGENT_AUTHORIZATION.md)。
